@@ -23,7 +23,7 @@ Run this FIRST (before plugging USB-C) then plug USB-C to spot the new serial de
 Linux/macOS:
 
 ```bash
-ls /dev/tty*
+sudo dmesg --follow | grep --line-buffered tty
 ```
 
 Common device names:
@@ -75,7 +75,7 @@ Look for an IP on the Ethernet interface (often `eth0`), e.g., `192.168.1.123`. 
 If ifconfig is missing, use:
 
 ```bash
-ip -4 addr
+ip -4 addr | grep inet
 ```
 
 
@@ -105,7 +105,7 @@ Install TigerVNC server:
 
 ```bash
 sudo apt update
-sudo apt install -y tigervnc-standalone-server tigervnc-common
+sudo apt install -y tigervnc-standalone-server
 ```
 
 Set a VNC password (first time only):
@@ -117,13 +117,16 @@ vncpasswd
 Start a VNC session on display :1 (maps to TCP port 5901):
 
 ```bash
-vncserver :1 -localhost no
+vncserver :1 -geometry 1280x720 -depth 24 -localhost no
 ```
 
 Notes:
 
 - `:1` → port 5901, `:2` → 5902, etc.
-- `-localhost no` allows remote connections from other machines on the LAN. For higher security, consider SSH tunneling and keep `-localhost yes`.
+-  `geometry WxH → set virtual desktop size (width x height), e.g., -geometry 1280x800`
+-  depth D → set color depth explicitly, e.g., -depth 24
+- `-localhost no` allows remote connections from other machines on the LAN.
+- For higher security, consider SSH tunneling and keep `-localhost yes`.
 
 Check running VNC servers:
 
@@ -188,6 +191,7 @@ Find the active VNC display:
 vncserver -list
 ```
 
+
 Example output:
 
 ```
@@ -196,34 +200,10 @@ TigerVNC server sessions:
 X DISPLAY #     PROCESS ID
 :1              12345
 ```
-
-Stop the running session to ensure clean startup:
-
-```bash
-vncserver -kill :1
+to attach desktop to the black screen
 ```
-
-Create a startup script so VNC runs XFCE when it starts:
-
-```bash
-mkdir -p ~/.vnc
-cat > ~/.vnc/xstartup << 'EOF'
-#!/bin/sh
-unset SESSION_MANAGER
-unset DBUS_SESSION_BUS_ADDRESS
-startxfce4 &
-EOF
-chmod +x ~/.vnc/xstartup
+DISPLAY=:1 startxfce4 &
 ```
-
-Start VNC again on :1 with remote access enabled:
-
-```bash
-vncserver :1 -localhost no
-```
-
-Reconnect with the VNC viewer to `JETSON_IP:1`—you should now see the full XFCE desktop instead of a black screen.
-
 ***
 
 ## 10) Common Management Commands (Jetson)

@@ -101,11 +101,11 @@ Accept the fingerprint, then enter the Jetson password.
 
 ## 6) Install and Start a VNC Server (Jetson)
 
-Install TigerVNC server:
+Install VNC server:
 
 ```bash
 sudo apt update
-sudo apt install -y tigervnc-standalone-server
+sudo apt update && sudo apt install tightvncserver -y
 ```
 
 Set a VNC password (first time only):

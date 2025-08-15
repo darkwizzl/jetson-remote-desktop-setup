@@ -1,4 +1,4 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
+
 
 # Jetson Headless Setup: Serial Console, Network, SSH, and VNC Desktop (Beginner-Friendly)
 
@@ -18,7 +18,7 @@ Follow each section in order. Commands are in dedicated blocks for easy copy/pas
 
 ## 2) Find the Jetson’s Serial Port (on the host)
 
-Run this FIRST (before plugging USB-C) to see current devices, then plug USB-C and run again to spot the new serial device.
+Run this FIRST (before plugging USB-C) then plug USB-C to spot the new serial device.
 
 Linux/macOS:
 
